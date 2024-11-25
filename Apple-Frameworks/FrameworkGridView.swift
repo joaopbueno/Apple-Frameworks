@@ -15,15 +15,15 @@ struct FrameworkGridView: View {
     ]
     
     var body: some View {
-        LazyVGrid(columns: columns) {
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    ForEach(MockData.frameworks, id: \.id) { framework in
+                        FrameworkTitleView(framework: framework)
+                    }
+                }
+            }
+            .navigationTitle("🍎 Framework")
         }
     }
 }
@@ -33,18 +33,20 @@ struct FrameworkGridView: View {
 }
 
 struct FrameworkTitleView: View {
-    var name: String
-    var imageName: String
+    
+    let framework: Framework
+    
     var body: some View {
         VStack {
-            Image(imageName)
+            Image(framework.imageName)
                 .resizable()
                 .frame(width: 90, height: 90)
-            Text(name)
+            Text(framework.name)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .scaledToFit()
                 .minimumScaleFactor(0.5)
         }
+        .padding()
     }
 }
